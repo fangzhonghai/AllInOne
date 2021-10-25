@@ -1,0 +1,14 @@
+Name	Type	Parents	Resources
+Filter	single	None	-l vf=3G,p=3 -P P18Z15000N0162
+BwaMem	single	Filter	-l vf=8G,p=6 -P P18Z15000N0162
+SortSam	single	BwaMem	-l vf=22G,p=1 -P P18Z15000N0162
+BamtoFastq	single	BaseRecalibrator.roche	-l vf=1G,p=1 -P P18Z15000N0162
+HLA	single	BamtoFastq	-l vf=8G,p=3 -P P18Z15000N0162
+DupMark	single	SortSam	-l vf=20G,p=2 -P P18Z15000N0162
+BaseRecalibrator.roche	single	DupMark	-l vf=22G,p=1 -P P18Z15000N0162
+HaplotypeCaller.roche	single	BaseRecalibrator.roche	-l vf=22G,p=1 -P P18Z15000N0162
+SampleQC.roche	single	BaseRecalibrator.roche	-l vf=1G,p=1 -P P18Z15000N0162
+OffTarget.roche	single	BaseRecalibrator.roche	-l vf=1G,p=1 -P P18Z15000N0162
+CYP2D6.roche	single	BaseRecalibrator.roche	-l vf=2G,p=2 -P P18Z15000N0162
+Genotyping	single	HaplotypeCaller.roche	-l vf=1G,p=1 -P P18Z15000N0162
+FinalQC	batch	SampleQC.roche	-l vf=1G,p=1 -P P18Z15000N0162

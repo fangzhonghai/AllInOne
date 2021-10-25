@@ -1,0 +1,1 @@
+python3 /jdfstj1/B2C_RD_P2/USR/fangzhonghai/project/AllInOne/genotyping/variant.py -bam /jdfstj1/B2C_RD_P2/USR/fangzhonghai/project/AXK/201202_V300082770/L1/alignment/L1_19L0559788-68/L1_19L0559788-68.final.bam -vcf /jdfstj1/B2C_RD_P2/USR/fangzhonghai/project/AXK/201202_V300082770/L1/variation/L1_19L0559788-68/L1_19L0559788-68.final.vcf.gz -out L1_19L0559788-68.variant.tsv
