@@ -227,7 +227,7 @@ class CYP2D6Caller:
             center_df = cc.classify(parsed_args.model, center_df)
             center_df.to_csv(f'{parsed_args.prefix}.classify.tsv', sep='\t')
         else:
-            raise Exception('-pipe must be cal_ratio/cal_baseline!')
+            raise Exception('-pipe must be cal_ratio/cal_baseline/classify/classify_direct/train_model!')
 
 
 def main():
