@@ -203,6 +203,14 @@ class CYP2D6Caller:
             cc.train_model(parsed_args.model, parsed_args.train)
             logger.info(f'Save the model {parsed_args.model} and exit.')
             sys.exit(0)
+        if parsed_args.pipe == 'classify_direct':
+            try:
+                center_df = pd.read_csv(parsed_args.center, sep='\t')
+            except:
+                center_df = pd.read_excel(parsed_args.center)
+            center_df = cc.classify(parsed_args.model, center_df)
+            center_df.to_csv(f'{parsed_args.prefix}.classify.tsv', sep='\t')
+            sys.exit(0)
         depth_df = cc.cal_region_depth(parsed_args.info)
         if parsed_args.pipe == 'cal_baseline':
             baseline = cc.cal_baseline(depth_df)
@@ -219,13 +227,6 @@ class CYP2D6Caller:
                 center_df.to_csv(f'{parsed_args.prefix}.classify.tsv', sep='\t')
             else:
                 center_df.to_csv(f'{parsed_args.prefix}.center.region.tsv', sep='\t')
-        elif parsed_args.pipe == 'classify_direct':
-            try:
-                center_df = pd.read_csv(parsed_args.center, sep='\t')
-            except:
-                center_df = pd.read_excel(parsed_args.center)
-            center_df = cc.classify(parsed_args.model, center_df)
-            center_df.to_csv(f'{parsed_args.prefix}.classify.tsv', sep='\t')
         else:
             raise Exception('-pipe must be cal_ratio/cal_baseline/classify/classify_direct/train_model!')
 
@@ -246,4 +247,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
