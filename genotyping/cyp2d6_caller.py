@@ -103,14 +103,14 @@ class CYP2D6Caller:
         y = train_set['known']
         rfc.fit(x, y)
         logger.info(f'Accuracy in train set is {rfc.score(x, y)}.')
+        logger.info('Feature importances: exon1:{},intron2:{},exon3:{},exon5:{},intron5:{},exon6:{},intron6:{}'.format(*np.round(rfc.feature_importances_, 3)))
         # 10fold交叉验证
         cv = 10
         cv_scores = cross_val_score(rfc, x, y, cv=cv)
         if cv_scores.min() >= 0.99:
             logger.info('Trained model looks good! {} fold cross validate min accuracy is {}.'.format(cv, cv_scores.min()))
         else:
-            logger.info(
-                '{} fold min accuracy is {}. Maybe need modify the AdaBoostClassifier parameter and retrain'.format(cv, cv_scores.min()))
+            logger.info('{} fold min accuracy is {}. Maybe need modify the RandomForestClassifier parameter and retrain'.format(cv, cv_scores.min()))
         joblib.dump(filename=model, value=rfc)
 
     @staticmethod
@@ -246,3 +246,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
