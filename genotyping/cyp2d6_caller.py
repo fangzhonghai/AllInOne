@@ -2,7 +2,7 @@
 import matplotlib
 matplotlib.use('Agg')
 from sklearn.model_selection import cross_val_score
-from sklearn.ensemble import AdaBoostClassifier
+from sklearn.ensemble import RandomForestClassifier
 from collections import defaultdict
 from argparse import ArgumentParser
 from sklearn.cluster import KMeans
@@ -98,20 +98,20 @@ class CYP2D6Caller:
         if train_set.shape[0] < 400:
             logger.info('Training set maybe too little...')
         # 默认的参数训练模型，一般不需改动
-        abc = AdaBoostClassifier(n_estimators=50, learning_rate=1.0, algorithm='SAMME.R', random_state=100)
+        rfc = RandomForestClassifier(n_estimators=100, random_state=100)
         x = train_set[['exon1', 'intron2', 'exon3', 'exon5', 'intron5', 'exon6', 'intron6']]
         y = train_set['known']
-        abc.fit(x, y)
-        logger.info(f'Accuracy in train set is {abc.score(x, y)}.')
+        rfc.fit(x, y)
+        logger.info(f'Accuracy in train set is {rfc.score(x, y)}.')
         # 10fold交叉验证
         cv = 10
-        cv_scores = cross_val_score(abc, x, y, cv=cv)
+        cv_scores = cross_val_score(rfc, x, y, cv=cv)
         if cv_scores.min() >= 0.99:
             logger.info('Trained model looks good! {} fold cross validate min accuracy is {}.'.format(cv, cv_scores.min()))
         else:
             logger.info(
                 '{} fold min accuracy is {}. Maybe need modify the AdaBoostClassifier parameter and retrain'.format(cv, cv_scores.min()))
-        joblib.dump(filename=model, value=abc)
+        joblib.dump(filename=model, value=rfc)
 
     @staticmethod
     def classify(model_file, center_df):
